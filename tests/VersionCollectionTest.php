@@ -19,6 +19,9 @@ class VersionCollectionTest extends PHPUnit_Framework_TestCase
     {
         $versions = new VersionCollection(['php-5.4.0', 'php-5.5.0', 'php-7.0.0', 'php-5.3.0', 'php-5.3.3']);
         $this->assertTrue($versions->sortAscending());
+        $this->assertEquals('["php-5.3.0","php-5.3.3","php-5.4.0","php-5.5.0","php-7.0.0"]', $versions->toJson());
+        $this->assertTrue($versions->sortDescending());
+        $this->assertEquals('["php-7.0.0","php-5.5.0","php-5.4.0","php-5.3.3","php-5.3.0"]', $versions->toJson());
     }
 
     public function testToJson()
