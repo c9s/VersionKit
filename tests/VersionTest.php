@@ -15,6 +15,10 @@ class VersionTest extends PHPUnit_Framework_TestCase
             array('php-5.3.0-alpha3'),
             array('php-5.3.0-beta2'),
             array('php-5.3.0-RC5'),
+            array('5.3.0-dev'),
+            array('5.3.0-alpha3'),
+            array('5.3.0-beta2'),
+            array('5.3.0-RC5'),
         );
     }
 
