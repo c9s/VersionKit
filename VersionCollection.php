@@ -4,7 +4,7 @@ use ArrayIterator;
 use ArrayAccess;
 use IteratorAggregate;
 
-class VersionList implements ArrayAccess, IteratorAggregate
+class VersionCollection implements ArrayAccess, IteratorAggregate
 {
     protected $versions;
 
