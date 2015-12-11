@@ -68,9 +68,9 @@ class Version implements VersionProvider
      * @param string $version
      * @return string version name
      */
-    protected function stripDistName($version)
+    protected function stripDistName($versionStr)
     {
-        return preg_replace('#^\w+-#', '', $version);
+        return preg_replace('#^\w+-#', '', $versionStr);
     }
 
     protected function parseVersion($version)
