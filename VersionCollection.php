@@ -23,6 +23,13 @@ class VersionCollection implements ArrayAccess, IteratorAggregate, Countable
         }, $versions);
     }
 
+    public function filterByMajorAndMinorVersion($majorVersion, $minorVersion)
+    {
+        return new VersionCollection(array_filter($this->versions, function($version) use ($majorVersion, $minorVersion) {
+            return $version->major == $majorVersion && $version->minor == $minorVersion;
+        }));
+    }
+
     public function filterByMajorVersion($majorVersion)
     {
         return new VersionCollection(array_filter($this->versions, function($version) use ($majorVersion) {

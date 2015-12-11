@@ -11,6 +11,8 @@ class VersionCollectionTest extends PHPUnit_Framework_TestCase
         $versions5 = $versions->filterByMajorVersion(5);
         $this->assertCount(1, $versions7);
         $this->assertCount(4, $versions5);
+        $versions53 = $versions->filterByMajorAndMinorVersion(5,3);
+        $this->assertCount(2, $versions53);
     }
 
 }
