@@ -15,4 +15,17 @@ class VersionCollectionTest extends PHPUnit_Framework_TestCase
         $this->assertCount(2, $versions53);
     }
 
+    public function testSort()
+    {
+        $versions = new VersionCollection(['php-5.4.0', 'php-5.5.0', 'php-7.0.0', 'php-5.3.0', 'php-5.3.3']);
+        $this->assertTrue($versions->sortAscending());
+    }
+
+    public function testToJson()
+    {
+        $versions = new VersionCollection(['php-5.4.0', 'php-5.5.0', 'php-7.0.0', 'php-5.3.0', 'php-5.3.3']);
+        $this->assertTrue($versions->sortAscending());
+        $this->assertEquals('["php-5.3.0","php-5.3.3","php-5.4.0","php-5.5.0","php-7.0.0"]', $versions->toJson());
+    }
+
 }

@@ -23,6 +23,13 @@ class VersionCollection implements ArrayAccess, IteratorAggregate, Countable
         }, $versions);
     }
 
+    public function sortAscending()
+    {
+        return usort($this->versions, function($a, $b) {
+            return $a->compare($b);
+        });
+    }
+
     public function filterByMajorAndMinorVersion($majorVersion, $minorVersion)
     {
         return new VersionCollection(array_filter($this->versions, function($version) use ($majorVersion, $minorVersion) {
@@ -81,6 +88,13 @@ class VersionCollection implements ArrayAccess, IteratorAggregate, Countable
     public function getIterator()
     {
         return new ArrayIterator($this->versions);
+    }
+
+    public function toJson()
+    {
+        return json_encode(array_map(function($version) {
+            return $version->__toString();
+        }, $this->versions));
     }
 
     public function count()

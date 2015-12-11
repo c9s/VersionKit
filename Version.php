@@ -150,7 +150,7 @@ class Version implements VersionProvider
 
     public function compare(VersionProvider $b)
     {
-        return version_compare($a->getVersion(), $b->getVersion());
+        return version_compare($this->getVersion(), $b->getVersion());
     }
 
     /**
