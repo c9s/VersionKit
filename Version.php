@@ -173,11 +173,4 @@ class Version implements VersionProvider
     {
         return $this->getCanonicalizedVersionName();
     }
-
 }
-
-
-
-
-
-
