@@ -2,10 +2,11 @@
 namespace VersionKit;
 use ArrayIterator;
 use ArrayAccess;
+use Countable;
 use IteratorAggregate;
 use RuntimeException;
 
-class VersionCollection implements ArrayAccess, IteratorAggregate
+class VersionCollection implements ArrayAccess, IteratorAggregate, Countable
 {
     protected $versions;
 
@@ -20,6 +21,13 @@ class VersionCollection implements ArrayAccess, IteratorAggregate
                 throw new RuntimeException('Invalid version type');
             }
         }, $versions);
+    }
+
+    public function filterByMajorVersion($majorVersion)
+    {
+        return new VersionCollection(array_filter($this->versions, function($version) use ($majorVersion) {
+            return $version->major == $majorVersion;
+        }));
     }
 
     /**
@@ -66,6 +74,11 @@ class VersionCollection implements ArrayAccess, IteratorAggregate
     public function getIterator()
     {
         return new ArrayIterator($this->versions);
+    }
+
+    public function count()
+    {
+        return count($this->versions);
     }
 
 
