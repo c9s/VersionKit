@@ -59,7 +59,7 @@ class Version implements VersionProvider
      */
     protected function parseDistName($version)
     {
-        if (preg_match('/^([a-z]\w+)-([0-9]+.*?)(?:-(\w+))?$/i',$version, $regs)) {
+        if (preg_match('/^([a-z]\w+)-(v?[0-9]+.*?)(?:-(\w+))?$/i',$version, $regs)) {
             return array($regs[1], $regs[2], isset($regs[3]) ? $regs[3] : null);
         }
         return null;
