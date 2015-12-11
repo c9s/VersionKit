@@ -25,11 +25,11 @@ class Version implements VersionProvider
      */
     protected $originalVersionString;
 
-    public $majorVersion;
+    public $major;
 
-    public $minorVersion;
+    public $minor;
 
-    public $patchVersion;
+    public $patch;
 
     /**
      * @var string dist name
@@ -104,30 +104,25 @@ class Version implements VersionProvider
         if ($ret = $this->parseDistName($version)) {
             list($distName, $version) = $ret;
         }
+        $this->distName = $distName;
         list($major, $minor, $patch) = $this->parseVersion($version);
-        $this->majorVersion = $major;
-        $this->minorVersion = $minor;
-        $this->patchVersion = $patch;
+        $this->major = $major;
+        $this->minor = $minor;
+        $this->patch = $patch;
     }
 
-
-    public function getPatchVersion() {
-        return $this->patchVersion;
-    }
-
-    public function getMinorVersion()
-    {
-        return $this->minorVersion;
-    }
-
-    public function getMajorVersion()
-    {
-        return $this->majorVersion;
-    }
 
     public function getVersion()
     {
-        return join('.', array($this->majorVersion, $this->minorVersion, $this->patchVersion));
+        $a = array();
+        $a[] = $this->major;
+        if ($this->minor) {
+            $a[] = $this->minor;
+            if ($this->patch) {
+                $a[] = $this->patch;
+            }
+        }
+        return join('.', $a);
     }
 
     public function getDistName()

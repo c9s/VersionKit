@@ -19,6 +19,7 @@ class VersionTest extends PHPUnit_Framework_TestCase
     public function testVersionConstructor($versionStr)
     {
         $version = new Version($versionStr);
+        $this->assertEquals($versionStr, $version->getCanonicalizedVersionName());
     }
 }
 
