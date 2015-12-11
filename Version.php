@@ -39,6 +39,7 @@ class Version implements VersionProvider
     public $stability;
 
 
+    private $_cachedVersionString;
     /**
      *
      *
@@ -122,11 +123,15 @@ class Version implements VersionProvider
         $this->major = $major;
         $this->minor = $minor;
         $this->patch = $patch;
+        $this->_cachedVersionString = null;
     }
 
 
     public function getVersion()
     {
+        if ($this->_cachedVersionString) {
+            return $this->_cachedVersionString;
+        }
         $a = array();
         $a[] = $this->major;
         if ($this->minor !== null) {
@@ -135,7 +140,7 @@ class Version implements VersionProvider
                 $a[] = $this->patch;
             }
         }
-        return join('.', $a);
+        return $this->_cachedVersionString = join('.', $a);
     }
 
     public function getDistName()
