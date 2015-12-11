@@ -1,8 +1,9 @@
 VersionKit
 ==================
 
-Utility functions for manipulating version strings.
+[![Build Status](https://travis-ci.org/c9s/VersionKit.svg?branch=master)](https://travis-ci.org/c9s/VersionKit)
 
+Utility functions for manipulating version strings.
 
 ```php
 $versionStrs = [
