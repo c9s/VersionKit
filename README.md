@@ -33,4 +33,5 @@ foreach ($versionStrs as $versionStr) {
     $version->getCanonicalizedVersionName(); // php-5.3.0-dev
     $version->compare(new Version('php-5.3.2'));
 }
+```
 
