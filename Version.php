@@ -19,11 +19,17 @@ class Version implements VersionProvider
      */
     public $version;
 
-    protected $majorVersion;
 
-    protected $minorVersion;
+    /**
+     * @var string the original version string (which is set by user)
+     */
+    protected $originalVersionString;
 
-    protected $patchVersion;
+    public $majorVersion;
+
+    public $minorVersion;
+
+    public $patchVersion;
 
     /**
      * @var string dist name
@@ -38,15 +44,7 @@ class Version implements VersionProvider
      */
     public function __construct($version, $distName = null)
     {
-        if ($ret = $this->parseDistName($version)) {
-            list($distName, $version) = $ret;
-        }
-
-        $this->distName = $distName;
-        list($major, $minor, $patch) = $this->parseVersion($version);
-        $this->majorVersion = $major;
-        $this->minorVersion = $minor;
-        $this->patchVersion = $patch;
+        $this->setVersion($version, $distName);
     }
 
     /**
@@ -63,8 +61,6 @@ class Version implements VersionProvider
         }
         return null;
     }
-
-
 
     /**
      * Strip the dist name from version string.
@@ -96,19 +92,22 @@ class Version implements VersionProvider
     }
 
 
-    public function setVersion($version)
+    /**
+     * Parse the version string and set the dist name if available
+     *
+     * @param $version string version string
+     * @param $distName the distribution name
+     */
+    public function setVersion($version, $distName = null)
     {
-        $verison = $this->stripDistName($version);
-        $p = explode('.', $version);
-        $this->majorVersion = intval($p[0]);
-        if (isset($p[1])) {
-            $this->minorVersion = intval($p[1]);
+        $this->originalVersionString = $version;
+        if ($ret = $this->parseDistName($version)) {
+            list($distName, $version) = $ret;
         }
-
-        if (isset($p[2])) {
-            $this->patchVersion = intval($p[2]);
-        }
-        $this->version = $version;
+        list($major, $minor, $patch) = $this->parseVersion($version);
+        $this->majorVersion = $major;
+        $this->minorVersion = $minor;
+        $this->patchVersion = $patch;
     }
 
 
@@ -126,8 +125,9 @@ class Version implements VersionProvider
         return $this->majorVersion;
     }
 
-    public function getVersion() {
-        return $this->version;
+    public function getVersion()
+    {
+        return join('.', array($this->majorVersion, $this->minorVersion, $this->patchVersion));
     }
 
     public function getDistName()
@@ -135,25 +135,17 @@ class Version implements VersionProvider
         return $this->distName;
     }
 
-    public function compare(Version $b)
+    public function compare(VersionProvider $b)
     {
         return version_compare($a->getVersion(), $b->getVersion());
     }
-
-
-    public static function hasPatchVersion($version) {
-        $va = explode('.', $version);
-        return count($va) >= 3;
-    }
-
-
 
     /**
      * @return string the version string, php-5.3.29, php-5.4.2 without prefix
      */
     public function getCanonicalizedVersionName()
     {
-        return $this->distName . '-' . $this->version;
+        return $this->distName . '-' . $this->getVersion();
     }
 
     public function __toString()
