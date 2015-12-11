@@ -38,6 +38,15 @@ class VersionList implements ArrayAccess, IteratorAggregate
     }
 
 
+    /**
+     * Bump a version's patch version to the latest available patch version.
+     *
+     * @param string $version
+     */
+    public function upgradePatchVersion($version)
+    {
+        $this->version = $this->findLatestPatchVersion($version);
+    }
 
 }
 

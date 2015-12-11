@@ -1,5 +1,6 @@
 <?php
 namespace VersionKit;
+use VersionKit\VersionProvider;
 use InvalidArgumentException;
 
 /**
@@ -10,7 +11,7 @@ use InvalidArgumentException;
  *   - php-5.4 => php-5.4.26
  *   - hhvm-3.3 => hhvm-3.3
  */
-class Version
+class Version implements VersionProvider
 {
 
     /**
@@ -27,7 +28,7 @@ class Version
     /**
      * @var string dist name
      */
-    public $dist;
+    public $distName;
 
     /**
      *
@@ -115,11 +116,13 @@ class Version
         return $this->patchVersion;
     }
 
-    public function getMinorVersion() {
+    public function getMinorVersion()
+    {
         return $this->minorVersion;
     }
 
-    public function getMajorVersion() {
+    public function getMajorVersion()
+    {
         return $this->majorVersion;
     }
 
@@ -127,49 +130,34 @@ class Version
         return $this->version;
     }
 
-    public function getDist() {
-        return $this->dist;
+    public function getDistName()
+    {
+        return $this->distName;
     }
 
-    public function compare($b) {
+    public function compare(Version $b)
+    {
         return version_compare($a->getVersion(), $b->getVersion());
     }
 
-    public function upgradePatchVersion(array $availableVersions) {
-        $this->version = self::findLatestPatchVersion($this->getVersion(), $availableVersions);
-    }
 
     public static function hasPatchVersion($version) {
         $va = explode('.', $version);
         return count($va) >= 3;
     }
 
-    public static function findLatestPatchVersion($currentVersion, array $versions) {
-        // Trim 5.4.29 to 5.4
-        $va = explode('.', $currentVersion);
-        if (count($va) == 3) {
-            list($cMajor, $cMinor, $cPatch) = $va;
-        } elseif(count($va) == 2) {
-            list($cMajor, $cMinor) = $va;
-            $cPatch = 0;
-        }
-        foreach ($versions as $version) {
-            list($major, $minor, $patch) = explode('.', $version);
-            if ($major == $cMajor && $minor == $cMinor && $patch > $cPatch) {
-                $cPatch = $patch;
-            }
-        }
-        return join('.', array($cMajor, $cMinor, $cPatch));
-    }
+
 
     /**
      * @return string the version string, php-5.3.29, php-5.4.2 without prefix
      */
-    public function getCanonicalizedVersionName() {
-        return $this->dist . '-' . $this->version;
+    public function getCanonicalizedVersionName()
+    {
+        return $this->distName . '-' . $this->version;
     }
 
-    public function __toString() {
+    public function __toString()
+    {
         return $this->getCanonicalizedVersionName();
     }
 
