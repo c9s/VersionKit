@@ -30,7 +30,7 @@ foreach ($versionStrs as $versionStr) {
     $version->major;
     $version->minor;
     $version->patch;
-    $version->getVersion(); // 5.3.2
+    $version->getVersionNumber(); // 5.3.2
     $version->getCanonicalizedVersionName(); // php-5.3.0-dev
     $version->compare(new Version('php-5.3.2'));
 }

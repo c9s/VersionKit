@@ -3,7 +3,7 @@ namespace VersionKit;
 
 interface VersionProvider
 {
-    public function getVersion();
+    public function getVersionNumber();
 }
 
 

@@ -127,7 +127,7 @@ class Version implements VersionProvider
     }
 
 
-    public function getVersion()
+    public function getVersionNumber()
     {
         if ($this->_cachedVersionString) {
             return $this->_cachedVersionString;
@@ -150,7 +150,7 @@ class Version implements VersionProvider
 
     public function compare(VersionProvider $b)
     {
-        return version_compare($this->getVersion(), $b->getVersion());
+        return version_compare($this->getVersionNumber(), $b->getVersionNumber());
     }
 
     /**
@@ -162,7 +162,7 @@ class Version implements VersionProvider
         if ($this->distName) {
             $a[] = $this->distName;
         }
-        $a[] = $this->getVersion();
+        $a[] = $this->getVersionNumber();
         if ($this->stability) {
             $a[] = $this->stability;
         }
